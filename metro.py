@@ -10,7 +10,7 @@ The idea of this script is to obtain all available stations of 'Metro Madrid' th
 obtained in their website. It was observed that all URLs are composed of three numbers, so we'll make
 a loop from 000 to 999 to obtain which of them are valid stations:
 
-  - If the returned list is not empty, it's supposed to be valid. (in 'k' list are the invalid ones.)
+  - If the returned list is not empty, it's supposed to be valid (in 'k' list are the invalid ones).
   - If the returned list is empty, it's not valid (there is no info available).
   - If there is no list (because of unauthorized petition), it's not valid too.
   - If there is no OK HTTP status, it's not valid too. In this case, it's recommended to scan all
@@ -19,7 +19,7 @@ a loop from 000 to 999 to obtain which of them are valid stations:
 Maybe it's necessary to make a sleep(x), being 'x' a number representing seconds, to avoid unexpected
 errors between requests. A commented example will be provided with it's corresponding library import.
 
-NOTE: It is possible to reduce time execution creating threads instead of making sequential requests.
+NOTE: It's possible to reduce time execution creating threads instead of making sequential requests.
 '''
 
 import requests
