@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # Authors:      MaanuelMM
 # Credits:      StackOverflow :S
-# Created:      2019/07/27
-# Last update:  2019/07/27
+# Created:      2019/07/22
+# Last update:  2019/07/23
 
 '''
 The idea of this script is to obtain all available stations of 'Metro Madrid' throw their kind of API
