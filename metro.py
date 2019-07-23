@@ -16,29 +16,29 @@ a loop from 000 to 999 to obtain which of them are valid stations:
   - If there is no OK HTTP status, it's not valid too. In this case, it's recommended to scan all
     stations again because some error could have been happened.
 
-Maybe it's necessary to make a sleep(x), being 'x' a number representing seconds, to avoid unexpected
-errors between requests. A commented example will be provided with it's corresponding library import.
-
 NOTE: It's possible to reduce time execution creating threads instead of making sequential requests.
 '''
 
 import requests
 import json
+import time
 import os
-# import time
 
 from datetime import datetime
+from tqdm import tqdm
 
 
-i = 0
-j = 999
-v = {}  # dict of valid stations
-k = []  # list of invalid formatted stations
-e = []  # list of empty stations
-u = []  # list of unauthorized stations
-n = []  # list of non-OK HTTP status stations
+i = 0       # start
+j = 1000    # total
+v = {}      # dict of valid stations
+k = []      # list of invalid formatted stations
+e = []      # list of empty stations
+u = []      # list of unauthorized stations
+n = []      # list of non-OK HTTP status stations
 
-while i <= j:
+print("\nGetting Metro Madrid stations:")
+
+for i in tqdm(range(j)):
     szi = str(i).zfill(3)
     r = requests.get("https://www.metromadrid.es/es/metro_next_trains/modal/" + szi)
     if r.status_code == 200:
@@ -54,9 +54,8 @@ while i <= j:
             u.append(i)
     else:
         n.append(i)
-    print(szi + " of " + str(j))
-    i += 1
-    # time.sleep(1)
+
+print("Completed!\n")
 
 print("\nValid stations:\n" + str(v) + "\n")
 print("\nInvalid formatted stations:\n" + str(k) + "\n")
@@ -64,11 +63,17 @@ print("\nEmpty stations:\n" + str(e) + "\n")
 print("\nUnauthorized stations:\n" + str(u) + "\n")
 print("\nNon-OK HTTP stations:\n" + str(n) + "\n")
 
-if os.path.exists('stations.json'):
-    with open('stations.json', 'r', encoding='utf-8') as original_data:
-        with open('stations-' + str(datetime.now()) + '.json', 'w', encoding='utf-8') as backup_data:
-            json.dump(json.load(original_data), backup_data, sort_keys=True, indent=4)
-    os.remove("stations.json")
+try:
+    if os.path.exists('stations.json'):
+        with open('stations.json', 'r', encoding='utf-8') as original_data:
+            with open('stations-' + str(datetime.now()) + '.json', 'w', encoding='utf-8') as backup_data:
+                json.dump(json.load(original_data), backup_data, sort_keys=True, indent=4)
+        os.remove("stations.json")
 
-with open('stations.json', 'w', encoding='utf-8') as data:
-    json.dump(v, data, sort_keys=True, indent=4)
+    with open('stations.json', 'w', encoding='utf-8') as data:
+        json.dump(v, data, sort_keys=True, indent=4)
+
+    print("\n'stations.json' was successfully updated!\n")
+
+except:
+    print("\nSome error happened. Please, try to execute the script later.\n")
