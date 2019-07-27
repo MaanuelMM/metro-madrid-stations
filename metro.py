@@ -3,7 +3,7 @@
 # Authors:      MaanuelMM
 # Credits:      StackOverflow :S
 # Created:      2019/07/22
-# Last update:  2019/07/23
+# Last update:  2019/07/27
 
 '''
 The idea of this script is to obtain all available stations of 'Metro Madrid' throw their kind of API
@@ -23,10 +23,12 @@ NOTE: It's possible to reduce time execution creating threads instead of making 
 '''
 
 import requests
+# import time
 import json
-import time
 import os
+import re
 
+from unidecode import unidecode
 from datetime import datetime
 from tqdm import tqdm
 
@@ -48,7 +50,7 @@ for i in tqdm(range(j)):
         try:
             if r.json():
                 try:
-                    v[r.json()[0]["dialogOptions"]["title"].split("PR\u00d3XIMOS TRENES - Estaci\u00f3n ")[1]] = szi
+                    v[re.sub(r'[^a-zA-Z0-9 ]', r'', unidecode(r.json()[0]["dialogOptions"]["title"].split("PR\u00d3XIMOS TRENES - Estaci\u00f3n ")[1].replace("-", " "))).upper()] = szi
                 except:
                     k.append(i)
             else:
